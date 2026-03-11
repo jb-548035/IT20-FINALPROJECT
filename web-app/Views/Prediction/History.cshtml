@@ -1,0 +1,147 @@
+@model List<ShoppingPredictor.Models.PredictionRecord>
+@{
+    ViewData["Title"] = "Prediction History";
+    int    total        = ViewBag.Total ?? 0;
+    int    page         = ViewBag.Page ?? 1;
+    int    pageSize     = ViewBag.PageSize ?? 20;
+    int    totalPages   = ViewBag.TotalPages ?? 1;
+    double avgConf      = ViewBag.AvgConfidence ?? 0.0;
+    var    classCounts  = ViewBag.ClassCounts as IEnumerable<dynamic> ?? Enumerable.Empty<dynamic>();
+}
+
+<h2 class="fw-bold mb-4">
+    <i class="bi bi-clock-history text-primary me-2"></i>Prediction History
+</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle-fill me-2"></i>@TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<!-- ── Summary stats ──────────────────────────────────────────────────────── -->
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm text-center p-3">
+            <div class="display-5 fw-bold text-primary">@total</div>
+            <div class="text-muted small">Total Predictions</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm text-center p-3">
+            <div class="display-5 fw-bold text-success">@avgConf.ToString("F1")%</div>
+            <div class="text-muted small">Average Confidence</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm text-center p-3">
+            @foreach (var item in classCounts)
+            {
+                string cls   = item.Class;
+                int    count = item.Count;
+                string badge = cls switch {
+                    "Online" => "bg-primary",
+                    "Store"  => "bg-warning text-dark",
+                    "Hybrid" => "bg-success",
+                    _        => "bg-secondary"
+                };
+                <span class="badge @badge me-1">@cls: @count</span>
+            }
+            <div class="text-muted small mt-1">Class Distribution</div>
+        </div>
+    </div>
+</div>
+
+<!-- ── Table ──────────────────────────────────────────────────────────────── -->
+@if (Model.Count == 0)
+{
+    <div class="alert alert-info text-center py-5">
+        <i class="bi bi-inbox display-4 d-block mb-3"></i>
+        No predictions yet. <a asp-action="Predict" class="alert-link">Make your first prediction!</a>
+    </div>
+}
+else
+{
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0 align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>#</th>
+                            <th>Timestamp (UTC)</th>
+                            <th>Prediction</th>
+                            <th>Confidence</th>
+                            <th>Model</th>
+                            <th>Age</th>
+                            <th>Income</th>
+                            <th>Gender</th>
+                            <th>City</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var rec in Model)
+                        {
+                            string badge = rec.PredictedClass switch {
+                                "Online" => "bg-primary",
+                                "Store"  => "bg-warning text-dark",
+                                "Hybrid" => "bg-success",
+                                _        => "bg-secondary"
+                            };
+                            <tr>
+                                <td class="text-muted small">@rec.Id</td>
+                                <td class="small">@rec.Timestamp.ToString("yyyy-MM-dd HH:mm")</td>
+                                <td>
+                                    <span class="badge @badge">@rec.PredictedClass</span>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="progress flex-grow-1" style="height:8px;">
+                                            <div class="progress-bar @badge"
+                                                 style="width:@((rec.Confidence*100).ToString("F0"))%">
+                                            </div>
+                                        </div>
+                                        <small>@((rec.Confidence*100).ToString("F1"))%</small>
+                                    </div>
+                                </td>
+                                <td class="small text-muted">@rec.ModelUsed</td>
+                                <td>@rec.Age</td>
+                                <td>₹@rec.MonthlyIncome.ToString("N0")</td>
+                                <td>@rec.Gender</td>
+                                <td>@rec.CityTier</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Pagination ──────────────────────────────────────────────────── -->
+    @if (totalPages > 1)
+    {
+        <nav class="mt-3">
+            <ul class="pagination justify-content-center">
+                @for (int p = 1; p <= totalPages; p++)
+                {
+                    <li class="page-item @(p == page ? "active" : "")">
+                        <a class="page-link" asp-action="History" asp-route-page="@p">@p</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
+
+    <!-- ── Clear history button ─────────────────────────────────────────── -->
+    <div class="text-end mt-3">
+        <form asp-action="Clear" method="post"
+              onsubmit="return confirm('Are you sure you want to delete all prediction history?')">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-outline-danger">
+                <i class="bi bi-trash me-1"></i>Clear All History
+            </button>
+        </form>
+    </div>
+}

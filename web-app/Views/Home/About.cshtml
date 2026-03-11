@@ -1,0 +1,112 @@
+@{
+    ViewData["Title"] = "About";
+}
+
+<h2 class="fw-bold mb-4"><i class="bi bi-info-circle me-2 text-primary"></i>About This Project</h2>
+
+<div class="row g-4">
+    <!-- Project description -->
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body p-4">
+                <h5 class="fw-bold text-primary">Business Problem</h5>
+                <p>
+                    An omni-channel retailer lacks a data-driven mechanism to predict customer
+                    shopping preferences. Without classification, marketing budgets are allocated
+                    generically, failing to optimise the customer journey for high-value segments.
+                </p>
+                <h5 class="fw-bold text-primary mt-3">Solution</h5>
+                <p>
+                    We trained supervised machine learning classifiers on 11,789 labelled customer
+                    records. The final model (Logistic Regression, tuned via GridSearchCV) achieves
+                    ≈98.2% accuracy and is served via a FastAPI REST API consumed by this ASP.NET
+                    Core MVC application.
+                </p>
+            </div>
+        </div>
+
+        <!-- Model comparison table -->
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-primary text-white fw-bold">
+                📈 Model Comparison Results
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Model</th>
+                            <th>Type</th>
+                            <th>Accuracy</th>
+                            <th>Weighted F1</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="table-success fw-bold">
+                            <td>Logistic Regression ✅</td>
+                            <td><span class="badge bg-info">Human-Selected</span></td>
+                            <td>0.9822</td>
+                            <td>0.9804</td>
+                        </tr>
+                        <tr>
+                            <td>SVM (RBF)</td>
+                            <td><span class="badge bg-secondary">Benchmark</span></td>
+                            <td>0.9644</td>
+                            <td>0.9490</td>
+                        </tr>
+                        <tr>
+                            <td>XGBoost</td>
+                            <td><span class="badge bg-warning text-dark">AI-Recommended</span></td>
+                            <td>0.9600</td>
+                            <td>0.9550</td>
+                        </tr>
+                        <tr>
+                            <td>Gradient Boosting</td>
+                            <td><span class="badge bg-secondary">Benchmark</span></td>
+                            <td>0.9300</td>
+                            <td>0.9136</td>
+                        </tr>
+                        <tr>
+                            <td>Random Forest</td>
+                            <td><span class="badge bg-secondary">Benchmark</span></td>
+                            <td>0.9109</td>
+                            <td>0.8864</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tech stack sidebar -->
+    <div class="col-lg-4">
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-dark text-white fw-bold">
+                🛠 Technology Stack
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><i class="bi bi-filetype-py text-warning me-2"></i>Python 3.10 – ML training</li>
+                <li class="list-group-item"><i class="bi bi-journal-code text-primary me-2"></i>scikit-learn, XGBoost, LightGBM</li>
+                <li class="list-group-item"><i class="bi bi-server text-success me-2"></i>FastAPI – REST prediction API</li>
+                <li class="list-group-item"><i class="bi bi-window text-info me-2"></i>Streamlit – analytics dashboard</li>
+                <li class="list-group-item"><i class="bi bi-braces text-danger me-2"></i>ASP.NET Core 10 MVC – this app</li>
+                <li class="list-group-item"><i class="bi bi-bootstrap text-purple me-2"></i>Bootstrap 5 – UI framework</li>
+                <li class="list-group-item"><i class="bi bi-database me-2"></i>SQLite – prediction history</li>
+            </ul>
+        </div>
+
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-dark text-white fw-bold">
+                🔑 Top Predictive Features
+            </div>
+            <ul class="list-group list-group-flush small">
+                <li class="list-group-item">1. monthly_online_orders</li>
+                <li class="list-group-item">2. avg_online_spend</li>
+                <li class="list-group-item">3. online_to_store_spend_ratio</li>
+                <li class="list-group-item">4. tech_savvy_score</li>
+                <li class="list-group-item">5. need_touch_feel_score</li>
+                <li class="list-group-item">6. daily_internet_hours</li>
+                <li class="list-group-item">7. digital_engagement_score</li>
+            </ul>
+        </div>
+    </div>
+</div>

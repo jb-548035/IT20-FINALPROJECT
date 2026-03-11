@@ -1,0 +1,18 @@
+@* 
+   _ValidationScriptsPartial.cshtml
+   Loads jQuery Unobtrusive Validation for client-side form validation.
+   Included via @section Scripts { @await Html.PartialAsync("_ValidationScriptsPartial") }
+   in any view that has a form requiring live field validation.
+*@
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js"
+        integrity="sha512-GEVHOLbF5pAFDSYZnwNauFODJ7Z3Gab3oRLqJcBOzgqbMfN04VFQ7w2YJzk8eBxVqO7k2iDlO3b96AqEvsw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js"
+        integrity="sha512-xq+Vm4jJ72eAfWaR8Kw7/jCcNsLEP0lSBDKBV1e4mCBCpmaS4HWjT3Q3r9mxbDwXD1lqXQ5GBxrMjkbsxWg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>

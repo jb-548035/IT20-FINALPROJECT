@@ -1,0 +1,97 @@
+/* ============================================================
+   site.css  –  Custom styles for Shopping Channel Predictor
+   Extends Bootstrap 5 with project-specific overrides.
+   ============================================================ */
+
+/* ── Global ─────────────────────────────────────────────────────────── */
+body {
+    background-color: #f4f7fb;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+/* ── Navbar tweaks ───────────────────────────────────────────────────── */
+.navbar {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+}
+
+.navbar-brand {
+    font-size: 1.3rem;
+    letter-spacing: -0.02em;
+}
+
+/* ── Cards ───────────────────────────────────────────────────────────── */
+.card {
+    border-radius: 0.75rem !important;
+    transition: box-shadow 0.2s ease;
+}
+
+.card:hover {
+    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1) !important;
+}
+
+.card-header {
+    border-radius: 0.75rem 0.75rem 0 0 !important;
+    font-size: 0.95rem;
+    padding: 0.9rem 1.25rem;
+}
+
+/* ── Hero section ────────────────────────────────────────────────────── */
+.hero-section {
+    border-radius: 1rem !important;
+}
+
+/* ── Form controls ───────────────────────────────────────────────────── */
+.form-control:focus,
+.form-select:focus,
+.form-range:focus {
+    border-color: #2E86AB;
+    box-shadow: 0 0 0 0.2rem rgba(46, 134, 171, 0.25);
+}
+
+/* ── Range sliders ───────────────────────────────────────────────────── */
+input[type="range"] {
+    accent-color: #0d6efd;
+}
+
+/* ── Result card animation ───────────────────────────────────────────── */
+.card-header.bg-primary,
+.card-header.bg-warning,
+.card-header.bg-success {
+    animation: fadeInDown 0.4s ease;
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-15px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Progress bars ───────────────────────────────────────────────────── */
+.progress {
+    border-radius: 50px;
+    background-color: #e9ecef;
+}
+
+/* ── Badge pills ─────────────────────────────────────────────────────── */
+.badge {
+    font-size: 0.78rem;
+    padding: 0.35em 0.7em;
+    border-radius: 50px;
+}
+
+/* ── Table ───────────────────────────────────────────────────────────── */
+.table th {
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+/* ── Footer ──────────────────────────────────────────────────────────── */
+footer {
+    font-size: 0.85rem;
+}
+
+/* ── Utility ─────────────────────────────────────────────────────────── */
+.display-1 { font-size: 5rem; }
+
+.text-purple { color: #6f42c1 !important; }

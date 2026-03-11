@@ -1,0 +1,132 @@
+@model ShoppingPredictor.Models.PredictionResult
+@{
+    ViewData["Title"] = "Prediction Result";
+
+    // Colour map for each class
+    string cardColour = Model.PredictedClass switch {
+        "Online" => "primary",
+        "Store"  => "warning",
+        "Hybrid" => "success",
+        _        => "secondary"
+    };
+
+    // Prepare Chart.js data from probabilities dictionary
+    var chartLabels = string.Join(",", Model.Probabilities.Keys.Select(k => $"\"{k}\""));
+    var chartData   = string.Join(",", Model.Probabilities.Values.Select(v => (v * 100).ToString("F1")));
+    var chartColors = string.Join(",",
+        Model.Probabilities.Keys.Select(k => k switch {
+            "Online" => "'rgba(13,110,253,0.8)'",
+            "Store"  => "'rgba(255,193,7,0.8)'",
+            "Hybrid" => "'rgba(25,135,84,0.8)'",
+            _        => "'rgba(108,117,125,0.8)'"
+        }));
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-9">
+
+        <!-- ── Result card ─────────────────────────────────────────────── -->
+        <div class="card border-0 shadow-lg mb-4">
+            <div class="card-header bg-@cardColour @(cardColour == "warning" ? "text-dark" : "text-white") py-4 text-center">
+                <div class="display-1 mb-2">@Model.Icon</div>
+                <h2 class="fw-bold mb-1">@Model.PredictedClass Shopper</h2>
+                <p class="mb-0 opacity-75">
+                    Confidence: <strong>@Model.ConfidencePercent</strong> &nbsp;|&nbsp;
+                    Model: <em>@Model.ModelUsed</em>
+                </p>
+            </div>
+            <div class="card-body p-4">
+
+                <!-- Business Insight -->
+                <div class="alert alert-info border-0 shadow-sm">
+                    <i class="bi bi-lightbulb-fill text-warning me-2"></i>
+                    <strong>Business Recommendation:</strong><br />
+                    @Model.BusinessInsight
+                </div>
+
+                <!-- Probability chart + table side-by-side -->
+                <div class="row align-items-center mt-3 g-4">
+                    <div class="col-md-6">
+                        <h6 class="fw-bold text-muted mb-3">Probability Distribution</h6>
+                        <canvas id="probChart" height="200"></canvas>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="fw-bold text-muted mb-3">Detailed Probabilities</h6>
+                        <table class="table table-bordered table-sm">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Class</th>
+                                    <th>Probability</th>
+                                    <th>Confidence Bar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var kv in Model.Probabilities.OrderByDescending(x => x.Value))
+                                {
+                                    var pct = kv.Value * 100;
+                                    var barClass = kv.Key switch {
+                                        "Online" => "bg-primary",
+                                        "Store"  => "bg-warning",
+                                        "Hybrid" => "bg-success",
+                                        _        => "bg-secondary"
+                                    };
+                                    <tr class="@(kv.Key == Model.PredictedClass ? "fw-bold" : "")">
+                                        <td>@kv.Key @(kv.Key == Model.PredictedClass ? "✅" : "")</td>
+                                        <td>@pct.ToString("F1")%</td>
+                                        <td>
+                                            <div class="progress" style="height:18px;">
+                                                <div class="progress-bar @barClass"
+                                                     style="width:@pct.ToString("F1")%">
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+            <div class="card-footer bg-light text-end">
+                <a asp-action="Predict" class="btn btn-outline-primary me-2">
+                    <i class="bi bi-arrow-left me-1"></i>New Prediction
+                </a>
+                <a asp-action="History" class="btn btn-outline-secondary">
+                    <i class="bi bi-clock-history me-1"></i>View History
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    // Chart.js doughnut for probability distribution
+    const ctx = document.getElementById('probChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: [@Html.Raw(chartLabels)],
+            datasets: [{
+                data: [@Html.Raw(chartData)],
+                backgroundColor: [@Html.Raw(chartColors)],
+                borderWidth: 2,
+                borderColor: '#fff'
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'bottom' },
+                tooltip: {
+                    callbacks: {
+                        label: ctx => ` ${ctx.label}: ${ctx.parsed.toFixed(1)}%`
+                    }
+                }
+            }
+        }
+    });
+</script>
+}

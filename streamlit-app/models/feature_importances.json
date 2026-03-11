@@ -1,0 +1,33 @@
+{
+  "xgboost_tuned": {
+    "age": 0.009921000339090824,
+    "monthly_income": 0.019849000498652458,
+    "daily_internet_hours": 0.01592399924993515,
+    "smartphone_usage_years": 0.011442000046372414,
+    "social_media_hours": 0.011349000036716461,
+    "online_payment_trust_score": 0.02963400073349476,
+    "tech_savvy_score": 0.04355299845337868,
+    "monthly_online_orders": 0.03061399981379509,
+    "monthly_store_visits": 0.028913000598549843,
+    "avg_online_spend": 0.027414999902248383,
+    "avg_store_spend": 0.24306100606918335,
+    "discount_sensitivity": 0.011890999972820282,
+    "return_frequency": 0.017364999279379845,
+    "avg_delivery_days": 0.016334999352693558,
+    "delivery_fee_sensitivity": 0.012746999971568584,
+    "free_return_importance": 0.022119000554084778,
+    "product_availability_online": 0.023840999230742455,
+    "impulse_buying_score": 0.01709599979221821,
+    "need_touch_feel_score": 0.057447001338005066,
+    "brand_loyalty_score": 0.010444000363349915,
+    "environmental_awareness": 0.021073000505566597,
+    "time_pressure_level": 0.011559000238776207,
+    "gender": 0.010955000296235085,
+    "city_tier": 0.011683999560773373,
+    "online_to_store_spend_ratio": 0.1223049983382225,
+    "digital_engagement_score": 0.047488000243902206,
+    "store_preference_indicator": 0.046835001558065414,
+    "income_spend_efficiency": 0.050794001668691635,
+    "price_sensitivity_index": 0.016346000134944916
+  }
+}
